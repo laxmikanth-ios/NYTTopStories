@@ -14,7 +14,7 @@ enum ImageFormat: String, Codable {
     case threeByTwoSmallAt2X = "threeByTwoSmallAt2X"
 }
 
-struct TopStories: Codable {
+struct TopStories: Codable & Equatable {
     let status, copyright, section: String
     let lastUpdated: String
     let numResults: Int
@@ -28,7 +28,7 @@ struct TopStories: Codable {
     }
 }
 
-struct Article: Codable {
+struct Article: Codable & Equatable {
     let section: String
     let subsection: Subsection
     let title, abstract: String
@@ -37,7 +37,7 @@ struct Article: Codable {
     let itemType: ItemType
     let updatedDate, createdDate, publishedDate: String
     let materialTypeFacet: String
-    let kicker: Kicker
+//    let kicker: Kicker
     let multimedia: [Multimedia]?
     let shortURL: String
     
@@ -48,7 +48,7 @@ struct Article: Codable {
         case createdDate = "created_date"
         case publishedDate = "published_date"
         case materialTypeFacet = "material_type_facet"
-        case kicker
+//        case kicker
         case multimedia
         case shortURL = "short_url"
     }
@@ -58,15 +58,15 @@ enum ItemType: String, Codable {
     case interactive = "Interactive"
 }
 
-enum Kicker: String, Codable {
-    case bigCITY = "Big CITY"
-    case empty = ""
-    case newYorkToday = "New York Today"
-    case onTheMarket = "On the Market"
-    case theNeediestCasesFund = "The Neediest Cases Fund"
-}
+//enum Kicker: String, Codable {
+//    case bigCITY = "Big CITY"
+//    case empty = ""
+//    case newYorkToday = "New York Today"
+//    case onTheMarket = "On the Market"
+//    case theNeediestCasesFund = "The Neediest Cases Fund"
+//}
 // MARK: - Multimedia
-struct Multimedia: Codable {
+struct Multimedia: Codable & Equatable {
     let url: String
     let format: String
     let height, width: Int

@@ -24,7 +24,7 @@ class ArticleDetailView: UIView {
     public lazy var abstractHeadLine: UILabel = {
        let label = UILabel()
         label.numberOfLines = 4
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.text = "Abstract headline"
         return label
     }()
@@ -59,8 +59,8 @@ class ArticleDetailView: UIView {
         abstractHeadLine.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             abstractHeadLine.topAnchor.constraint(equalTo: newsImageView.bottomAnchor, constant: 8),
-            abstractHeadLine.leadingAnchor.constraint(equalTo: newsImageView.leadingAnchor),
-            abstractHeadLine.trailingAnchor.constraint(equalTo: newsImageView.trailingAnchor)
+            abstractHeadLine.leadingAnchor.constraint(equalTo: newsImageView.leadingAnchor, constant: 8),
+            abstractHeadLine.trailingAnchor.constraint(equalTo: newsImageView.trailingAnchor, constant: -8)
         ])
     }    
 
