@@ -27,19 +27,21 @@ class NewsFeedViewController: UIViewController {
         
         // register a collection view cell
         newsFeedView.collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "articleCell")
+        fetchStories()
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func fetchStories(for section: String = "Technology") {
+        NYTTopStoriesAPIClient.fetchTopStories(for: section) { result in
+            switch result {
+            case .failure(let appError):
+                print("error fetching stories: \(appError)")
+            case .success(let articles):
+                print("found \(articles.count) articles")
+            }
+        }
     }
-    */
-
+    
 }
 
 extension NewsFeedViewController: UICollectionViewDataSource {
