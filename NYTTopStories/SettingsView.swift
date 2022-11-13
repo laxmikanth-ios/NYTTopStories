@@ -42,3 +42,6 @@ class SettingsView: UIView {
     
 }
 
+
+// Encapsulation: It says that all may properties are private
+// How we access private properties using dependency injection and custom initialization

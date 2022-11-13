@@ -14,8 +14,8 @@ class NewsFeedViewController: UIViewController {
     
     // step 2: setting up the datapersistance and its delegate
     // since we  need an instance passed to the ArticleDetailViewController
-    public var dataPersistance: DataPersistence<Article>!
-    
+    private var dataPersistance: DataPersistence<Article> // In a class need default value if not means have an initializer
+        
     // data for our collection view
     private var newsArticles = [Article]() {
         didSet {
@@ -26,6 +26,16 @@ class NewsFeedViewController: UIViewController {
     }
 
     private var sectionName = "Technology"
+    
+    // initializers
+    init(_ dataPersistance:DataPersistence<Article>) {
+        self.dataPersistance = dataPersistance
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder:NSCoder) {
+        fatalError("init(coder): has not been implemented")
+    }
     
     override func loadView() {
         view = newsFeedView
@@ -118,12 +128,7 @@ extension NewsFeedViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let article = newsArticles[indexPath.row]
-        let articleDVC = ArticleDetailViewController()
-        // TODO: after assesment we will be using initializers as dependency injection mechanism
-        // like let articleDVC = ArticleDetailViewCOntroller(article)
-        articleDVC.article = article
-        // step 3: setting up the datapersistance and its delegate
-        articleDVC.dataPersistance = dataPersistance
+        let articleDVC = ArticleDetailViewController(dataPersistance, article: article)
         navigationController?.pushViewController(articleDVC, animated: true)
     }
     

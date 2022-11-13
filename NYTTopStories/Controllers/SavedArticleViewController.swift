@@ -11,7 +11,7 @@ import DataPersistence
 class SavedArticleViewController: UIViewController {
 
     // step 4: setting up the datapersistance and its delegate
-    public var dataPersistance: DataPersistence<Article>!
+    private var dataPersistance: DataPersistence<Article>
     
     
     private let savedArticleView = SavedArticlesView()
@@ -30,6 +30,17 @@ class SavedArticleViewController: UIViewController {
         }
     }
     
+    // initializers
+    
+    init(_ dataPersistance: DataPersistence<Article>) {
+        self.dataPersistance = dataPersistance
+        super.init(nibName: nil, bundle: nil)
+        self.dataPersistance.delegate = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = savedArticleView
@@ -111,10 +122,7 @@ extension SavedArticleViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // programatically a segue
         let article = savedArticles[indexPath.row]
-        let detailVC = ArticleDetailViewController()
-        // TODO: using initializer as opposed to injecting indivif=dual properties
-        detailVC.article = article
-        detailVC.dataPersistance = dataPersistance
+        let detailVC = ArticleDetailViewController(dataPersistance, article: article)
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
