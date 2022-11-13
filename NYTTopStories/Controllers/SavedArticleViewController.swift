@@ -115,6 +115,7 @@ extension SavedArticleViewController: UICollectionViewDelegateFlowLayout {
         // TODO: using initializer as opposed to injecting indivif=dual properties
         detailVC.article = article
         detailVC.dataPersistance = dataPersistance
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
