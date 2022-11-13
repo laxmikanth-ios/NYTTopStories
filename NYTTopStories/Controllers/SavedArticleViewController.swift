@@ -69,6 +69,7 @@ extension SavedArticleViewController: DataPersistenceDelegate {
     
     func didDeleteItem<T>(_ persistenceHelper: DataPersistence<T>, item: T) where T : Decodable, T : Encodable, T : Equatable {
         print("Item was deleted")
+        fetchSavedArticles()
     }
 }
 
@@ -123,10 +124,24 @@ extension SavedArticleViewController: SavedArticleCellDelegate {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { alertAction in
             // TODO: write a delete helper function
+            self.deleteArticle(article)
+            
         }
         alertController.addAction(cancelAction)
         alertController.addAction(deleteAction)
         present(alertController, animated: true)
         
+    }
+    
+    private func deleteArticle(_ article: Article) {
+        guard let index = savedArticles.firstIndex(of: article) else {
+            return
+        }
+        do {
+            // deletes from document directory
+            try dataPersistance.deleteItem(at: index)
+        }catch {
+            print("error deleting article: \(error)")
+        }
     }
 }
