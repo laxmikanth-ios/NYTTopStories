@@ -90,8 +90,8 @@
 		28A2970A291F5E860084B697 /* NYTTopStories */ = {
 			isa = PBXGroup;
 			children = (
-				28EED8BA291FD21D00B5A4BC /* TopStory.swift */,
-				28EED8BC291FD7D500B5A4BC /* NYTTopStoryClient.swift */,
+				28EED8C22920C8BF00B5A4BC /* Model */,
+				28EED8C12920C83700B5A4BC /* Network Services */,
 				28A29729291F9EE60084B697 /* Views */,
 				28A29722291F62760084B697 /* Controllers */,
 				28A29721291F625B0084B697 /* Supporting Files */,
@@ -136,6 +136,22 @@
 				28A29732291FA6680084B697 /* NYTTopStoriesTests.swift */,
 			);
 			path = NYTTopStoriesTests;
+			sourceTree = "<group>";
+		};
+		28EED8C12920C83700B5A4BC /* Network Services */ = {
+			isa = PBXGroup;
+			children = (
+				28EED8BC291FD7D500B5A4BC /* NYTTopStoryClient.swift */,
+			);
+			path = "Network Services";
+			sourceTree = "<group>";
+		};
+		28EED8C22920C8BF00B5A4BC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				28EED8BA291FD21D00B5A4BC /* TopStory.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
