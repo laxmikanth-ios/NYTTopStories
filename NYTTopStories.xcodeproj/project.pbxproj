@@ -27,6 +27,7 @@
 		28EED8CC2920FB6500B5A4BC /* SavedArticlesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EED8CB2920FB6500B5A4BC /* SavedArticlesView.swift */; };
 		28EED8CE2921073000B5A4BC /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EED8CD2921072F00B5A4BC /* EmptyView.swift */; };
 		28EED8D029210EFE00B5A4BC /* SavedArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EED8CF29210EFE00B5A4BC /* SavedArticleCell.swift */; };
+		28EED8D3292123CF00B5A4BC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28EED8D2292123CF00B5A4BC /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		28EED8CB2920FB6500B5A4BC /* SavedArticlesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArticlesView.swift; sourceTree = "<group>"; };
 		28EED8CD2921072F00B5A4BC /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		28EED8CF29210EFE00B5A4BC /* SavedArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedArticleCell.swift; sourceTree = "<group>"; };
+		28EED8D2292123CF00B5A4BC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				28EED8C92920E0F200B5A4BC /* ArticleDetailView.swift */,
 				28EED8CB2920FB6500B5A4BC /* SavedArticlesView.swift */,
 				28EED8CD2921072F00B5A4BC /* EmptyView.swift */,
+				28EED8D2292123CF00B5A4BC /* SettingsView.swift */,
 				28EED8D12921167100B5A4BC /* Cells */,
 			);
 			name = Views;
@@ -294,6 +297,7 @@
 				28EED8CA2920E0F200B5A4BC /* ArticleDetailView.swift in Sources */,
 				28A29726291F62C10084B697 /* SavedArticleViewController.swift in Sources */,
 				28EED8C82920DD4C00B5A4BC /* ArticleDetailViewController.swift in Sources */,
+				28EED8D3292123CF00B5A4BC /* SettingsView.swift in Sources */,
 				28A29720291F5EEB0084B697 /* TopStoriesTabController.swift in Sources */,
 				28A2970E291F5E860084B697 /* SceneDelegate.swift in Sources */,
 				28A2972B291F9F0B0084B697 /* NewsFeedView.swift in Sources */,
