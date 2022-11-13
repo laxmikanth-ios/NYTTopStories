@@ -42,6 +42,9 @@ class NewsFeedViewController: UIViewController {
         
         // register a collection view cell
         newsFeedView.collectionView.register(NewsCell.self, forCellWithReuseIdentifier: "articleCell")
+        
+        // setup searchbar
+        newsFeedView.searchBar.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,6 +61,8 @@ class NewsFeedViewController: UIViewController {
                 // make a new query
                 queryAPI(for: sectionName)
                 self.sectionName = sectionName
+            }else {
+                queryAPI(for: sectionName)
             }
         }else {
             // use the user defaults section name
@@ -121,4 +126,32 @@ extension NewsFeedViewController: UICollectionViewDelegateFlowLayout {
         articleDVC.dataPersistance = dataPersistance
         navigationController?.pushViewController(articleDVC, animated: true)
     }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if newsFeedView.searchBar.isFirstResponder {
+            newsFeedView.searchBar.resignFirstResponder()
+        }
+    }
+}
+
+extension NewsFeedViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        guard !searchText.isEmpty else {
+            // if text is empty reload all articles
+            fetchStories()
+            return
+        }
+        
+        // filter articles based on searchtext
+        newsArticles = newsArticles.filter { $0.title.lowercased().contains(searchText.lowercased())}
+        
+        
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("searchBarSearchButtonClicked: \(searchBar.searchTextField.text ?? "")")
+    }
+    
 }

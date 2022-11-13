@@ -83,7 +83,7 @@ class SavedArticleCell: UICollectionViewCell {
     }
     
     @objc private func didLongPress(_ gesture:UILongPressGestureRecognizer) {
-        guard let cureentArticle = currentArticle else {
+        guard let currentArticle = currentArticle else {
             return
         }
         if gesture.state == .began || gesture.state == .changed {
@@ -91,7 +91,7 @@ class SavedArticleCell: UICollectionViewCell {
             
             return
         }
-        isShowingImage.toggle() // if it is true -> false  //if it isfalse -> true
+        isShowingImage.toggle() // if it is true -> false  //if it is false -> true
         
         newsImageView.getImage(with: currentArticle.getAricleImageURL(for: .threeByTwoSmallAt2X)) {[weak self] (result) in
             switch result {
