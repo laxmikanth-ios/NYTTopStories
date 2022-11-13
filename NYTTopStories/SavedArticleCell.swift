@@ -7,8 +7,17 @@
 
 import UIKit
 
+// AnyObject - it will works only for classes not for value types
+// step 1: creating custom protocol
+protocol SavedArticleCellDelegate: AnyObject {
+    func didSelectMoreButton(_ savedArticleCell: SavedArticleCell, article: Article)
+}
 
 class SavedArticleCell: UICollectionViewCell {
+    
+    // step 2: custom protocol
+    
+    weak var delegate: SavedArticleCellDelegate?
     
     // to keep track of the current cells article
     private var currentArticle: Article!
@@ -49,7 +58,8 @@ class SavedArticleCell: UICollectionViewCell {
     }
     
     @objc private func moreButtonTapped(_ sender: UIButton) {
-        print("button was pressed for current article \(currentArticle.title)")
+      //  print("button was pressed for current article \(currentArticle.title)")
+        delegate?.didSelectMoreButton(self, article: currentArticle)
     }
     
     private func setupMoreButtonConstraints() {

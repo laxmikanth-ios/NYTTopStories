@@ -85,6 +85,8 @@ extension SavedArticleViewController: UICollectionViewDataSource {
         cell.backgroundColor = .white
         let savedArticle = savedArticles[indexPath.row]
         cell.configureCell(for: savedArticle)
+        // step 1: registering as the delegate object
+        cell.delegate = self
         return cell
     }
 }
@@ -103,5 +105,28 @@ extension SavedArticleViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    }
+}
+
+// step 2: Confirming SavedArticleCellDelegate
+extension SavedArticleViewController: SavedArticleCellDelegate {
+    func didSelectMoreButton(_ savedArticleCell: SavedArticleCell, article: Article) {
+        print("didSelectMoreButton: \(article.title)")
+        
+        // create an action sheet
+        // cancel action
+        // delete action
+        // post MVP shareAction
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { alertAction in
+            // TODO: write a delete helper function
+        }
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        present(alertController, animated: true)
+        
     }
 }
