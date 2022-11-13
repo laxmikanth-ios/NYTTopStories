@@ -6,6 +6,14 @@
 //
 
 import Foundation
+
+
+enum ImageFormat: String, Codable {
+    case largeThumbnail = "Large Thumbnail"
+    case superJumbo = "Super Jumbo"
+    case threeByTwoSmallAt2X = "threeByTwoSmallAt2X"
+}
+
 struct TopStories: Codable {
     let status, copyright, section: String
     let lastUpdated: String
@@ -60,17 +68,22 @@ enum Kicker: String, Codable {
 // MARK: - Multimedia
 struct Multimedia: Codable {
     let url: String
-    let format: Format
+    let format: String
     let height, width: Int
     let type: TypeEnum
     let subtype: Subtype
     let caption, copyright: String
 }
 
-enum Format: String, Codable {
-    case largeThumbnail = "Large Thumbnail"
-    case superJumbo = "Super Jumbo"
-    case threeByTwoSmallAt2X = "threeByTwoSmallAt2X"
+extension Article { // Article.getArticleImageURL(.superJumbo)
+    func getAricleImageURL(for imageFormat: ImageFormat) -> String {
+        let results = multimedia?.filter { $0.format == imageFormat.rawValue } // "thumbLarge" == "thumbLarge"
+        guard let multimediaImage = results?.first else {
+            // if results is 0
+            return ""
+        }
+        return multimediaImage.url
+    }
 }
 
 enum Subtype: String, Codable {

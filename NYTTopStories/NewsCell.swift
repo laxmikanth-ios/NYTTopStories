@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ImageKit // getimage()
 
 class NewsCell: UICollectionViewCell {
     
@@ -80,6 +81,23 @@ class NewsCell: UICollectionViewCell {
             abstractTitle.leadingAnchor.constraint(equalTo: articleTitle.leadingAnchor),
             abstractTitle.trailingAnchor.constraint(equalTo: articleTitle.trailingAnchor)
         ])
+    }
+    
+    public func configureCell(with article: Article) {
+        articleTitle.text = article.title
+        abstractTitle.text = article.abstract
+        newsImageView.getImage(with: article.getAricleImageURL(for: .largeThumbnail)) { [weak self] (result) in
+            switch result {
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.newsImageView.image = UIImage(systemName: "exclamationmark-octagon")
+                }
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self?.newsImageView.image = image
+                }
+            }
+        }
     }
     
 }
