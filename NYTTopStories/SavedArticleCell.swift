@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ImageKit
 
 // AnyObject - it will works only for classes not for value types
 // step 1: creating custom protocol
@@ -38,10 +39,27 @@ class SavedArticleCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.text = "Article Title"
         label.numberOfLines = 4
+        label.isUserInteractionEnabled = true
         return label
     }()
     
+    private lazy var longGestureRecognizer: UILongPressGestureRecognizer = {
+        let gesture = UILongPressGestureRecognizer()
+        gesture.addTarget(self, action: #selector(didLongPress(_:)))
+        return gesture
+    }()
     
+    public lazy var newsImageView: UIImageView = {
+       let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.image = UIImage(systemName: "photo")
+        iv.clipsToBounds = true
+        iv.alpha = 0
+        return iv
+        
+    }()
+    
+    private var isShowingImage = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,6 +73,8 @@ class SavedArticleCell: UICollectionViewCell {
     private func commonInit() {
         setupMoreButtonConstraints()
         setupArticleTitleConstraints()
+        addGestureRecognizer(longGestureRecognizer) // a view by itself listens to long presses and its enabled by default
+        setupNewsImageViewConstraints()
     }
     
     @objc private func moreButtonTapped(_ sender: UIButton) {
@@ -62,6 +82,47 @@ class SavedArticleCell: UICollectionViewCell {
         delegate?.didSelectMoreButton(self, article: currentArticle)
     }
     
+    @objc private func didLongPress(_ gesture:UILongPressGestureRecognizer) {
+        guard let cureentArticle = currentArticle else {
+            return
+        }
+        if gesture.state == .began || gesture.state == .changed {
+           // print("long pressed")
+            
+            return
+        }
+        isShowingImage.toggle() // if it is true -> false  //if it isfalse -> true
+        
+        newsImageView.getImage(with: currentArticle.getAricleImageURL(for: .threeByTwoSmallAt2X)) {[weak self] (result) in
+            switch result {
+            case .failure:
+                DispatchQueue.main.async {
+                    self?.newsImageView.image = UIImage(systemName: "exclamationmark-octogon")
+                }
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self?.newsImageView.image = image
+                    self?.animate()
+                }
+            }
+        }
+    }
+    
+    private func animate() {
+        let duration: Double = 1.0 // seconds
+        
+        if isShowingImage {
+            UIView.transition(with: self, duration: duration, options: [.transitionFlipFromRight], animations: {
+                self.newsImageView.alpha = 1.0
+                self.articleTitle.alpha = 0.0
+            }, completion: nil)
+        }else {
+            UIView.transition(with: self, duration: duration, options: [.transitionFlipFromLeft], animations: {
+                self.newsImageView.alpha = 0.0
+                self.articleTitle.alpha = 1.0
+            }, completion: nil)
+        }
+    }
     private func setupMoreButtonConstraints() {
         addSubview(moreButton)
         moreButton.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +142,17 @@ class SavedArticleCell: UICollectionViewCell {
             articleTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
             articleTitle.topAnchor.constraint(equalTo: moreButton.bottomAnchor),
             articleTitle.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    
+    private func setupNewsImageViewConstraints() {
+        addSubview(newsImageView)
+        newsImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            newsImageView.topAnchor.constraint(equalTo: moreButton.bottomAnchor),
+            newsImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            newsImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            newsImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
