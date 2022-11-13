@@ -62,7 +62,12 @@ class ArticleDetailViewController: UIViewController {
         }
         do {
             // save to documents directory
-            try dataPersistance.createItem(article)
+            let itemHasBeenSaved = dataPersistance.hasItemBeenSaved(article)
+            if itemHasBeenSaved == false {
+                try dataPersistance.createItem(article)
+            }else {
+                print("Item has already saved in documents")
+            }
         }catch {
             print("error saving article: \(error)")
         }

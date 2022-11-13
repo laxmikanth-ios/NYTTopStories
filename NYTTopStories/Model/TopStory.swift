@@ -30,7 +30,7 @@ struct TopStories: Codable & Equatable {
 
 struct Article: Codable & Equatable {
     let section: String
-    let subsection: Subsection
+//    let subsection: Subsection
     let title, abstract: String
     let url: String
     let uri, byline: String
@@ -42,7 +42,7 @@ struct Article: Codable & Equatable {
     let shortURL: String
     
     enum CodingKeys: String, CodingKey {
-        case section, subsection, title, abstract, url, uri, byline
+        case section, title, abstract, url, uri, byline
         case itemType = "item_type"
         case updatedDate = "updated_date"
         case createdDate = "created_date"
@@ -94,11 +94,11 @@ enum TypeEnum: String, Codable {
     case image = "image"
 }
 
-enum Subsection: String, Codable {
-    case basketball = "basketball"
-    case design = "design"
-    case elections = "elections"
-    case empty = ""
-    case politics = "politics"
-}
+//enum Subsection: String, Codable {
+//    case basketball = "basketball"
+//    case design = "design"
+//    case elections = "elections"
+//    case empty = ""
+//    case politics = "politics"
+//}
 

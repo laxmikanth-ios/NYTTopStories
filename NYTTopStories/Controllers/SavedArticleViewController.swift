@@ -107,6 +107,15 @@ extension SavedArticleViewController: UICollectionViewDelegateFlowLayout {
         
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // programatically a segue
+        let article = savedArticles[indexPath.row]
+        let detailVC = ArticleDetailViewController()
+        // TODO: using initializer as opposed to injecting indivif=dual properties
+        detailVC.article = article
+        detailVC.dataPersistance = dataPersistance
+    }
 }
 
 // step 2: Confirming SavedArticleCellDelegate
