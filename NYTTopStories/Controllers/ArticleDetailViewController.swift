@@ -46,18 +46,20 @@ class ArticleDetailViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        updateUI()
         
         // adding  a UIBarButtonItem to the right side to the navigation bar title
         bookmarkBarButton = UIBarButtonItem(image: UIImage(systemName: "bookmark"), style: .plain, target: self, action: #selector(savedArticleButtonPressed(_:)))
         navigationItem.rightBarButtonItem = bookmarkBarButton
         
+        updateUI()
+
         // setup gesture
         detailView.newsImageView.isUserInteractionEnabled = true
         detailView.newsImageView.addGestureRecognizer(tapGesture)
     }
     
     private func updateUI() {
+        updateBookmarkState(article)
         navigationItem.title = article.title
         detailView.abstractHeadLine.text = article.abstract
         detailView.newsImageView.getImage(with: article.getAricleImageURL(for: .superJumbo)) {[weak self] (result) in
@@ -77,17 +79,25 @@ class ArticleDetailViewController: UIViewController {
     
     @objc
     func savedArticleButtonPressed(_ sender: UIBarButtonItem) {
-        do {
-            // save to documents directory
-            let itemHasBeenSaved = dataPersistance.hasItemBeenSaved(article)
-            if itemHasBeenSaved == false {
-                try dataPersistance.createItem(article)
-            }else {
-                print("Item has already saved in documents")
+        if dataPersistance.hasItemBeenSaved(article) {
+            if let index = try? dataPersistance.loadItems().firstIndex(of: article) {
+                do {
+                    try dataPersistance.deleteItem(at: index)
+                } catch {
+                    print("error deleting article: \(error)")
+                }
             }
-        }catch {
-            print("error saving article: \(error)")
+        } else {
+            do {
+                // save to documents directory
+                try dataPersistance.createItem(article)
+            } catch {
+                print("error saving article: \(error)")
+            }
         }
+        
+        // update bookmark state
+        updateBookmarkState(article)
     }
     
     @objc
@@ -103,4 +113,12 @@ class ArticleDetailViewController: UIViewController {
         }
         present(zoomImageVC, animated: true)
     }
+    
+    private func updateBookmarkState(_ article: Article) {
+        if dataPersistance.hasItemBeenSaved(article) {
+          bookmarkBarButton.image = UIImage(systemName: "bookmark.fill")
+        } else {
+          bookmarkBarButton.image = UIImage(systemName: "bookmark")
+        }
+      }
 }
