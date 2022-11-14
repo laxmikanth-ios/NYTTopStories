@@ -20,6 +20,13 @@ class ArticleDetailViewController: UIViewController {
     
     private var dataPersistance: DataPersistence<Article>
 
+    private var bookmarkBarButton: UIBarButtonItem!
+    
+    private lazy var tapGesture: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(didTap(_:)))
+        return gesture
+    }()
     
     // initializers
     init(_ dataPersistance: DataPersistence<Article>, article: Article) {
@@ -42,7 +49,12 @@ class ArticleDetailViewController: UIViewController {
         updateUI()
         
         // adding  a UIBarButtonItem to the right side to the navigation bar title
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "bookmark"), style: .plain, target: self, action: #selector(savedArticleButtonPressed(_:)))
+        bookmarkBarButton = UIBarButtonItem(image: UIImage(systemName: "bookmark"), style: .plain, target: self, action: #selector(savedArticleButtonPressed(_:)))
+        navigationItem.rightBarButtonItem = bookmarkBarButton
+        
+        // setup gesture
+        detailView.newsImageView.isUserInteractionEnabled = true
+        detailView.newsImageView.addGestureRecognizer(tapGesture)
     }
     
     private func updateUI() {
@@ -77,5 +89,18 @@ class ArticleDetailViewController: UIViewController {
             print("error saving article: \(error)")
         }
     }
-
+    
+    @objc
+    func didTap(_ gesture:UITapGestureRecognizer) {
+        print("image was tapped")
+        let image = detailView.newsImageView.image ?? UIImage()
+        
+        // we need to get an instance of the ZoomImageViewController from storyboard
+        let zoomImageStoryboard = UIStoryboard(name: "ZoomImage", bundle: nil)
+        
+        let zoomImageVC = zoomImageStoryboard.instantiateViewController(identifier: "ZoomImageViewController") { coder in // why we need coder object means we need to reconstruct our initializer
+            return ZoomImageViewController(coder: coder, image)
+        }
+        present(zoomImageVC, animated: true)
+    }
 }
